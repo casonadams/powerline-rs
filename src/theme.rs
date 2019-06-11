@@ -70,15 +70,15 @@ pub struct Theme {
 }
 
 pub const DEFAULT: Theme = Theme {
-    separator_fg: 244,
+    separator_fg: 0,
 
-    home_bg: 31,
-    home_fg: 15,
-    path_bg: 237,
-    path_fg: 250,
-    cwd_fg: 254,
+    home_bg: 39,
+    home_fg: 0,
+    path_bg: 39,
+    path_fg: 0,
+    cwd_fg: 0,
 
-    username_bg: 240,
+    username_bg: 0,
     username_fg: 250,
     username_root_bg: 124,
     hostname_bg: 238,
@@ -89,35 +89,35 @@ pub const DEFAULT: Theme = Theme {
     ps_bg: 238,
     ps_fg: 39,
 
-    time_bg: 238,
-    time_fg: 250,
+    time_bg: 0,
+    time_fg: 8,
 
-    ssh_bg: 166,
-    ssh_fg: 254,
+    ssh_bg: 6,
+    ssh_fg: 0,
 
     ssh_char: '',
 
-    ro_bg: 124,
-    ro_fg: 254,
+    ro_bg: 0,
+    ro_fg: 15,
 
     ro_char: '',
 
-    git_clean_bg: 148,
-    git_clean_fg: 0,
-    git_dirty_bg: 161,
-    git_dirty_fg: 15,
-    git_ahead_bg: 240,
-    git_ahead_fg: 250,
-    git_behind_bg: 240,
-    git_behind_fg: 250,
-    git_conflicted_bg: 9,
-    git_conflicted_fg: 15,
-    git_notstaged_bg: 130,
-    git_notstaged_fg: 15,
-    git_staged_bg: 22,
-    git_staged_fg: 15,
-    git_untracked_bg: 52,
-    git_untracked_fg: 15,
+    git_clean_bg: 0,
+    git_clean_fg: 47,
+    git_dirty_bg: 0,
+    git_dirty_fg: 167,
+    git_ahead_bg: 0,
+    git_ahead_fg: 167,
+    git_behind_bg: 0,
+    git_behind_fg: 167,
+    git_conflicted_bg: 0,
+    git_conflicted_fg: 167,
+    git_notstaged_bg: 0,
+    git_notstaged_fg: 167,
+    git_staged_bg: 0,
+    git_staged_fg: 199,
+    git_untracked_bg: 0,
+    git_untracked_fg: 167,
 
     git_ahead_char: '⬆',
     git_behind_char: '⬇',
@@ -126,15 +126,15 @@ pub const DEFAULT: Theme = Theme {
     git_untracked_char: '+',
     git_conflicted_char: '*',
 
-    cmd_passed_bg: 236,
+    cmd_passed_bg: 0,
     cmd_passed_fg: 15,
-    cmd_failed_bg: 161,
+    cmd_failed_bg: 01,
     cmd_failed_fg: 15,
 
     virtual_env_bg: 35,
     virtual_env_fg: 0,
 
-    nixshell_bg: 237,
+    nixshell_bg: 0,
     nixshell_fg: 130,
 };
 
@@ -171,7 +171,7 @@ pub fn load(file: &str) -> Result<Theme, Box<StdError>> {
 
         if variable.ends_with("char") {
             let index = theme_index_char(&mut theme, variable).ok_or_else(|| ErrCorrupt)?;
-            
+
             if value.chars().count() == 1 {
                 *index = value.parse()?;
             } else {

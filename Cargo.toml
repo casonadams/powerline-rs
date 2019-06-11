@@ -7,11 +7,12 @@ readme = "README.md"
 repository = "https://github.com/jD91mZM2/powerline-rs"
 version = "0.1.9"
 [build-dependencies]
-clap = "2.32.0"
+clap = "2.33.0"
 
 [dependencies]
-clap = "2.32.0"
-dirs = "1.0.4"
+clap = "2.33.0"
+dirs = "2.0.1"
+time = "0.1.42"
 
 [dependencies.chrono]
 optional = true
@@ -23,7 +24,7 @@ version = "0.2.2"
 
 [dependencies.git2]
 optional = true
-version = "0.7.5"
+version = "0.9.1"
 
 [dependencies.users]
 optional = true

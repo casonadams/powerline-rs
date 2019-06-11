@@ -85,13 +85,13 @@ impl Segment {
         self.escaped = true;
     }
     pub fn print(&self, next: Option<&Segment>, shell: Shell, theme: &Theme) {
-        print!("{}{}{} {} ", self.before, Fg(shell, self.fg), Bg(shell, self.bg), self.text);
+        print!("{}{}{}{}", self.before, Fg(shell, self.fg), Bg(shell, self.bg), self.text);
         match next {
             Some(next) if next.is_conditional() => {},
-            Some(next) if next.bg == self.bg => print!("{}", Fg(shell, theme.separator_fg)),
-            Some(next) => print!("{}{}",  Fg(shell, self.bg), Bg(shell, next.bg)),
+            Some(next) if next.bg == self.bg => print!("{} ", Fg(shell, theme.separator_fg)),
+            Some(next) => print!("{}{} ",  Fg(shell, self.bg), Bg(shell, next.bg)),
             // Last tile resets colors
-            None       => print!("{}{}{}",Fg(shell, self.bg), Reset(shell, false), Reset(shell, true))
+            None       => print!("{}{} {}",Fg(shell, self.bg), Reset(shell, false), Reset(shell, true))
         }
         print!("{}", self.after);
     }
