@@ -18,6 +18,18 @@ Speed! I haven't done any extensive benchmarks, but it appears like
 even the debug version of `powerline-rs` is about 20 milliseconds faster than `powerline-go`.
 The Rust language is perfect for fast applications, since copying large structures isn't implicit.
 
+## Depends on
+
+```bash
+# openssl-sys
+
+# fedora
+sudo dnf install openssl-devel
+
+# debian
+sudo apt install libssl-dev
+```
+
 ## How to install
 
 ```
@@ -26,8 +38,8 @@ cargo install powerline-rs
 
 It's also available on Nix and the [AUR (not officially maintained)](https://aur.archlinux.org/packages/powerline-rs/).
 
-In order to use optional features, add something like `--features "feature1,feature2,etc"` to the end of the command.  
-To disable default features, add `--no-default-features` (and manually readd features you want to keep).  
+In order to use optional features, add something like `--features "feature1,feature2,etc"` to the end of the command.
+To disable default features, add `--no-default-features` (and manually readd features you want to keep).
 
 Optional features:
 
@@ -39,9 +51,9 @@ Default features:
 - git2 (Git support)
 - users (Username support)
 
-Then add the following code to your shell:  
-[Bash](#bash)  
-[Fish](#fish)  
+Then add the following code to your shell:
+[Bash](#bash)
+[Fish](#fish)
 [Zsh](#zsh)
 
 ### What's new?
@@ -60,7 +72,7 @@ But you can always enable it, of course!
 
 ### What's removed?
 
-Most of the service-specific modules are deleted. I am very lazy.  
+Most of the service-specific modules are deleted. I am very lazy.
 Pull requests are welcome, though.
 
 Also, the `jobs` module won't work with `--shell bare`.
