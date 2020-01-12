@@ -1,8 +1,13 @@
-#[cfg(feature = "chrono")] extern crate chrono;
-#[cfg(feature = "flame")] extern crate flame;
-#[cfg(feature = "git2")] extern crate git2;
-#[cfg(feature = "users")] extern crate users;
-#[macro_use] extern crate clap;
+#[cfg(feature = "chrono")]
+extern crate chrono;
+#[cfg(feature = "flame")]
+extern crate flame;
+#[cfg(feature = "git2")]
+extern crate git2;
+#[cfg(feature = "users")]
+extern crate users;
+#[macro_use]
+extern crate clap;
 extern crate dirs;
 
 mod cli;
@@ -19,7 +24,7 @@ use theme::Theme;
 pub enum Shell {
     Bare,
     Bash,
-    Zsh
+    Zsh,
 }
 
 pub struct Powerline {
@@ -30,7 +35,7 @@ pub struct Powerline {
     #[cfg(feature = "git2")]
     git: Option<git2::Repository>,
     #[cfg(feature = "git2")]
-    git_statuses: Option<Vec<git2::Status>>
+    git_statuses: Option<Vec<git2::Status>>,
 }
 
 fn main() {
@@ -45,9 +50,9 @@ fn main() {
     #[cfg(feature = "flame")]
     flame::start("parse arguments");
 
-    let cwd_max_depth    = value_t_or_exit!(matches, "cwd-max-depth", u8);
+    let cwd_max_depth = value_t_or_exit!(matches, "cwd-max-depth", u8);
     let cwd_max_dir_size = value_t_or_exit!(matches, "cwd-max-dir-size", u8);
-    let error            = value_t_or_exit!(matches, "error", u8);
+    let error = value_t_or_exit!(matches, "error", u8);
 
     #[cfg(feature = "flame")]
     flame::start("parse theme");
@@ -59,7 +64,9 @@ fn main() {
             eprintln!("Invalid theme.");
             theme::DEFAULT
         }
-    } else { theme::DEFAULT };
+    } else {
+        theme::DEFAULT
+    };
 
     #[cfg(feature = "flame")]
     flame::end("parse theme");
@@ -67,9 +74,11 @@ fn main() {
     #[cfg(feature = "flame")]
     flame::start("parse modules");
 
-    let modules: Vec<_> = matches.values_of("modules").unwrap()
-                            .map(|module| module.parse().unwrap())
-                            .collect();
+    let modules: Vec<_> = matches
+        .values_of("modules")
+        .unwrap()
+        .map(|module| module.parse().unwrap())
+        .collect();
 
     #[cfg(feature = "flame")]
     flame::end("parse modules");
@@ -86,21 +95,29 @@ fn main() {
         shell: match matches.value_of("shell").unwrap() {
             "bare" => Shell::Bare,
             "bash" => Shell::Bash,
-            "zsh"  => Shell::Zsh,
-            _ => unreachable!()
+            "zsh" => Shell::Zsh,
+            _ => unreachable!(),
         },
 
         #[cfg(feature = "git2")]
         git: None,
         #[cfg(feature = "git2")]
-        git_statuses: None
+        git_statuses: None,
     };
 
     for module in modules {
         match module {
             Module::Cwd => segments::segment_cwd(&mut p, cwd_max_depth, cwd_max_dir_size),
-            Module::Git => { #[cfg(feature = "git2")] segments::segment_git(&mut p) },
-            Module::GitStage => { #[cfg(feature = "git2")] segments::segment_gitstage(&mut p) },
+            Module::Git =>
+            {
+                #[cfg(feature = "git2")]
+                segments::segment_git(&mut p)
+            }
+            Module::GitStage =>
+            {
+                #[cfg(feature = "git2")]
+                segments::segment_gitstage(&mut p)
+            }
             Module::Host => segments::segment_host(&mut p),
             Module::Jobs => segments::segment_jobs(&mut p),
             Module::NixShell => segments::segment_nix(&mut p),
@@ -121,7 +138,7 @@ fn main() {
 
     for i in 0..p.segments.len() {
         p.segments[i].escape(p.shell);
-        p.segments[i].print(p.segments.get(i+1), p.shell, &p.theme);
+        p.segments[i].print(p.segments.get(i + 1), p.shell, &p.theme);
     }
 
     if matches.is_present("newline") {

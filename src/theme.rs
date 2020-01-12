@@ -6,7 +6,7 @@ pub struct Theme {
     pub home_fg: u8,
     pub path_bg: u8,
     pub path_fg: u8,
-    pub cwd_fg:  u8,
+    pub cwd_fg: u8,
 
     pub username_bg: u8,
     pub username_fg: u8,
@@ -34,16 +34,16 @@ pub struct Theme {
     pub git_clean_fg: u8,
     pub git_dirty_bg: u8,
     pub git_dirty_fg: u8,
-    pub git_ahead_bg:  u8,
-    pub git_ahead_fg:  u8,
+    pub git_ahead_bg: u8,
+    pub git_ahead_fg: u8,
     pub git_behind_bg: u8,
     pub git_behind_fg: u8,
     pub git_conflicted_bg: u8,
     pub git_conflicted_fg: u8,
     pub git_notstaged_bg: u8,
     pub git_notstaged_fg: u8,
-    pub git_staged_bg:    u8,
-    pub git_staged_fg:    u8,
+    pub git_staged_bg: u8,
+    pub git_staged_fg: u8,
     pub git_untracked_bg: u8,
     pub git_untracked_fg: u8,
 
@@ -147,10 +147,14 @@ use std::io::{BufRead, BufReader};
 pub struct ErrCorrupt;
 
 impl StdError for ErrCorrupt {
-    fn description(&self) -> &'static str { "Corrupt theme file" }
+    fn description(&self) -> &'static str {
+        "Corrupt theme file"
+    }
 }
 impl fmt::Display for ErrCorrupt {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result { write!(f, "{}", self.description()) }
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "{}", self.description())
+    }
 }
 
 pub fn load(file: &str) -> Result<Theme, Box<StdError>> {
@@ -166,8 +170,14 @@ pub fn load(file: &str) -> Result<Theme, Box<StdError>> {
         }
         let mut parts = line.splitn(2, '=');
 
-        let variable = parts.next().map(|inner| inner.trim()).ok_or_else(|| ErrCorrupt)?;
-        let value    = parts.next().map(|inner| inner.trim()).ok_or_else(|| ErrCorrupt)?;
+        let variable = parts
+            .next()
+            .map(|inner| inner.trim())
+            .ok_or_else(|| ErrCorrupt)?;
+        let value = parts
+            .next()
+            .map(|inner| inner.trim())
+            .ok_or_else(|| ErrCorrupt)?;
 
         if variable.ends_with("char") {
             let index = theme_index_char(&mut theme, variable).ok_or_else(|| ErrCorrupt)?;
@@ -195,7 +205,7 @@ fn theme_index_u8<'a>(theme: &'a mut Theme, name: &str) -> Option<&'a mut u8> {
         "home_fg" => Some(&mut theme.home_fg),
         "path_bg" => Some(&mut theme.path_bg),
         "path_fg" => Some(&mut theme.path_fg),
-        "cwd_fg"  => Some(&mut theme.cwd_fg),
+        "cwd_fg" => Some(&mut theme.cwd_fg),
 
         "username_bg" => Some(&mut theme.username_bg),
         "username_fg" => Some(&mut theme.username_fg),
@@ -243,7 +253,7 @@ fn theme_index_u8<'a>(theme: &'a mut Theme, name: &str) -> Option<&'a mut u8> {
         "nixshell_bg" => Some(&mut theme.nixshell_bg),
         "nixshell_fg" => Some(&mut theme.nixshell_fg),
 
-        _ => None
+        _ => None,
     }
 }
 
@@ -256,6 +266,6 @@ fn theme_index_char<'a>(theme: &'a mut Theme, name: &str) -> Option<&'a mut char
         "git_untracked_char" => Some(&mut theme.git_untracked_char),
         "git_conflicted_char" => Some(&mut theme.git_conflicted_char),
 
-        _ => None
+        _ => None,
     }
 }

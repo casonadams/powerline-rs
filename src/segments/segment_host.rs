@@ -1,7 +1,7 @@
 use std::{
     borrow::Cow,
     os::raw::{c_char, c_int},
-    str
+    str,
 };
 use {Powerline, Segment, Shell};
 
@@ -27,9 +27,16 @@ pub fn segment_host(p: &mut Powerline) {
         return;
     }
 
-    p.segments.push(Segment::new(bg, fg, match p.shell {
-        Shell::Bare => unreachable!(),
-        Shell::Bash => "\\h",
-        Shell::Zsh  => "%m"
-    }).dont_escape());
+    p.segments.push(
+        Segment::new(
+            bg,
+            fg,
+            match p.shell {
+                Shell::Bare => unreachable!(),
+                Shell::Bash => "\\h",
+                Shell::Zsh => "%m",
+            },
+        )
+        .dont_escape(),
+    );
 }

@@ -22,14 +22,15 @@ pub use self::segment_time::*;
 pub use self::segment_user::*;
 pub use self::segment_virtualenv::*;
 
-#[cfg(feature = "git2")] pub mod segment_git;
-#[cfg(feature = "git2")] pub use self::segment_git::*;
+#[cfg(feature = "git2")]
+pub mod segment_git;
+#[cfg(feature = "git2")]
+pub use self::segment_git::*;
 
-
-use Shell;
 use format::*;
 use std::borrow::Cow;
 use theme::Theme;
+use Shell;
 
 pub struct Segment {
     bg: u8,
@@ -40,11 +41,12 @@ pub struct Segment {
     conditional: bool,
 
     escaped: bool,
-    text: Cow<'static, str>
+    text: Cow<'static, str>,
 }
 impl Segment {
     pub fn new<S>(bg: u8, fg: u8, text: S) -> Self
-        where S: Into<Cow<'static, str>>
+    where
+        S: Into<Cow<'static, str>>,
     {
         Segment {
             bg,
@@ -55,7 +57,7 @@ impl Segment {
             conditional: false,
 
             escaped: false,
-            text:  text.into()
+            text: text.into(),
         }
     }
     pub fn dont_escape(mut self) -> Self {
@@ -85,13 +87,24 @@ impl Segment {
         self.escaped = true;
     }
     pub fn print(&self, next: Option<&Segment>, shell: Shell, theme: &Theme) {
-        print!("{}{}{}{}", self.before, Fg(shell, self.fg), Bg(shell, self.bg), self.text);
+        print!(
+            "{}{}{}{}",
+            self.before,
+            Fg(shell, self.fg),
+            Bg(shell, self.bg),
+            self.text
+        );
         match next {
-            Some(next) if next.is_conditional() => {},
+            Some(next) if next.is_conditional() => {}
             Some(next) if next.bg == self.bg => print!("{} ", Fg(shell, theme.separator_fg)),
-            Some(next) => print!("{}{} ",  Fg(shell, self.bg), Bg(shell, next.bg)),
+            Some(next) => print!("{}{} ", Fg(shell, self.bg), Bg(shell, next.bg)),
             // Last tile resets colors
-            None       => print!("{}{} {}",Fg(shell, self.bg), Reset(shell, false), Reset(shell, true))
+            None => print!(
+                "{}{} {}",
+                Fg(shell, self.bg),
+                Reset(shell, false),
+                Reset(shell, true)
+            ),
         }
         print!("{}", self.after);
     }
